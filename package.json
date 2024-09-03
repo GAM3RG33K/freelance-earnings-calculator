@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://GAM3RG33K.github.io/freelance-earnings-calculator",
+  "homepage": "https://gam3rg33k.github.io/freelance-earnings-calculator",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
