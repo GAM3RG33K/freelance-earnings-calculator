@@ -1,4 +1,3 @@
-import React from 'react'
 import FreelanceEarningsCalculator from './FreelanceEarningsCalculator'
 
 function App() {
