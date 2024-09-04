@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
 export default defineConfig({
-  base: '/freelance-earnings-calculator/',
   plugins: [react()],
   resolve: {
     alias: {
