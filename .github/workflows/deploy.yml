@@ -33,8 +33,10 @@ jobs:
       run: npm run build
 
 
-    - name: Report Build status
+    - name: Print project location
       run: pwd
+
+    - name: Print directory & files
       run: ls -la .
 
     - name: Deploy to GitHub Pages
