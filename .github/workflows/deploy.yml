@@ -32,6 +32,11 @@ jobs:
     - name: Build
       run: npm run build
 
+
+    - name: Report Build status
+      run: pwd
+      run: ls -la .
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
