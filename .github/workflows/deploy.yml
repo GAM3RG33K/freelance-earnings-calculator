@@ -37,6 +37,9 @@ jobs:
     - name: Print directory & files
       run: ls -la .
 
+    - name: Print dist files
+      run: ls -R dist
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
