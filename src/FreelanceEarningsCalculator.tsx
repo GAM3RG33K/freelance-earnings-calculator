@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Coins, HelpCircle } from "lucide-react";
+import { ChevronDown, ChevronUp, Coins, HelpCircle } from "lucide-react";
 import {
     Select,
     SelectContent,
@@ -11,6 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './components/ui/collapsible';
 
 const InputField: React.FC<{
     label: string;
@@ -72,12 +73,18 @@ const FreelanceEarningsCalculator: React.FC = () => {
     });
     const [earningCurrency, setEarningCurrency] = useState('USD');
     const [depositCurrency, setDepositCurrency] = useState('INR');
-    const [netEarnings, setNetEarnings] = useState<number | null>(null);
+    const [calculationResult, setCalculationResult] = useState<{
+        netEarnings: number;
+        serviceFee: number;
+        gstOnServiceFee: number;
+        withholdingTax: number;
+        totalDeductions: number;
+    } | null>(null);
+    const [isResultExpanded, setIsResultExpanded] = useState(false);
 
     useEffect(() => {
         // Reset exchange rate when currencies change
         setFields(prev => ({ ...prev, exchangeRate: '' }));
-        setNetEarnings(null);
     }, [earningCurrency, depositCurrency]);
 
     const handleInputChange = (field: keyof typeof fields, value: string) => {
@@ -110,7 +117,13 @@ const FreelanceEarningsCalculator: React.FC = () => {
         const netEarningsBeforeExchange = total - totalDeductions - parseFloat(withdrawalFee);
         const netEarningsAfterExchange = netEarningsBeforeExchange * parseFloat(exchangeRate);
 
-        setNetEarnings(netEarningsAfterExchange);
+        setCalculationResult({
+            netEarnings: netEarningsAfterExchange,
+            serviceFee,
+            gstOnServiceFee,
+            withholdingTax,
+            totalDeductions,
+        });
     };
 
     const resetFields = () => {
@@ -124,7 +137,8 @@ const FreelanceEarningsCalculator: React.FC = () => {
         });
         setEarningCurrency('USD');
         setDepositCurrency('INR');
-        setNetEarnings(null);
+        setCalculationResult(null);
+        setIsResultExpanded(false);
     };
 
     const exchangeRateHelpLink = `https://currencyapi.com/currency-conversion/${earningCurrency.toLowerCase()}-${depositCurrency.toLowerCase()}-1`;
@@ -219,7 +233,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
                     </CardFooter>
                 </Card>
 
-                {netEarnings !== null && (
+                {calculationResult && (
                     <Card className="w-full bg-primary text-primary-foreground">
                         <CardHeader>
                             <CardTitle className="text-2xl font-bold flex items-center">
@@ -229,11 +243,32 @@ const FreelanceEarningsCalculator: React.FC = () => {
                         </CardHeader>
                         <CardContent>
                             <div className="text-4xl font-bold">
-                                {depositCurrency} {netEarnings.toFixed(2)}
+                                {depositCurrency} {calculationResult.netEarnings.toFixed(2)}
                             </div>
                             <div className="text-xl mt-2">
                                 Net amount deposited in your bank account
                             </div>
+                            <Collapsible
+                                open={isResultExpanded}
+                                onOpenChange={setIsResultExpanded}
+                                className="mt-4"
+                            >
+                                <CollapsibleTrigger asChild>
+                                    <Button variant="outline" className="w-full">
+                                        {isResultExpanded ? "Hide Details" : "Show Details"}
+                                        {isResultExpanded ? <ChevronUp className="ml-2 h-4 w-4" /> : <ChevronDown className="ml-2 h-4 w-4" />}
+                                    </Button>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent className="mt-2">
+                                    <div className="space-y-2">
+                                        <p>Service Fee: {earningCurrency} {calculationResult.serviceFee.toFixed(2)}</p>
+                                        <p>GST on Service Fee: {earningCurrency} {calculationResult.gstOnServiceFee.toFixed(2)}</p>
+                                        <p>Withholding Tax: {earningCurrency} {calculationResult.withholdingTax.toFixed(2)}</p>
+                                        <p>Withdrawal Fee: {earningCurrency} {fields.withdrawalFee}</p>
+                                        <p className="font-semibold">Total Deductions: {earningCurrency} {calculationResult.totalDeductions.toFixed(2)}</p>
+                                    </div>
+                                </CollapsibleContent>
+                            </Collapsible>
                         </CardContent>
                     </Card>
                 )}
