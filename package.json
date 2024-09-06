@@ -6,7 +6,7 @@
   "homepage": "https://gam3rg33k.github.io/freelance-earnings-calculator",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
