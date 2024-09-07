@@ -78,6 +78,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
         serviceFee: number;
         gstOnServiceFee: number;
         withholdingTax: number;
+        withdrawalFeeCharge: number;
         totalDeductions: number;
     } | null>(null);
     const [isResultExpanded, setIsResultExpanded] = useState(false);
@@ -112,9 +113,10 @@ const FreelanceEarningsCalculator: React.FC = () => {
         const serviceFee = total * (parseFloat(serviceFeePercentage) / 100);
         const gstOnServiceFee = serviceFee * (parseFloat(gstPercentage) / 100);
         const withholdingTax = total * (parseFloat(withholdingTaxPercentage) / 100);
+        const withdrawalFeeCharge = parseFloat(withdrawalFee);
 
-        const totalDeductions = serviceFee + gstOnServiceFee + withholdingTax;
-        const netEarningsBeforeExchange = total - totalDeductions - parseFloat(withdrawalFee);
+        const totalDeductions = serviceFee + gstOnServiceFee + withholdingTax + withdrawalFeeCharge;
+        const netEarningsBeforeExchange = total - totalDeductions;
         const netEarningsAfterExchange = netEarningsBeforeExchange * parseFloat(exchangeRate);
 
         setCalculationResult({
@@ -122,6 +124,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
             serviceFee,
             gstOnServiceFee,
             withholdingTax,
+            withdrawalFeeCharge,
             totalDeductions,
         });
     };
@@ -264,7 +267,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
                                         <p>Service Fee: {earningCurrency} {calculationResult.serviceFee.toFixed(2)}</p>
                                         <p>GST on Service Fee: {earningCurrency} {calculationResult.gstOnServiceFee.toFixed(2)}</p>
                                         <p>Withholding Tax: {earningCurrency} {calculationResult.withholdingTax.toFixed(2)}</p>
-                                        <p>Withdrawal Fee: {earningCurrency} {fields.withdrawalFee}</p>
+                                        <p>Withdrawal Fee: {earningCurrency} {calculationResult.withdrawalFeeCharge.toFixed(2)}</p>
                                         <p className="font-semibold">Total Deductions: {earningCurrency} {calculationResult.totalDeductions.toFixed(2)}</p>
                                     </div>
                                 </CollapsibleContent>
