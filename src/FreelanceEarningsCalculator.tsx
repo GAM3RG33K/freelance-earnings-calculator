@@ -251,7 +251,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
                                 {depositCurrency} {calculationResult.netEarnings.toFixed(2)}
                             </div>
                             <div className="text-xl mt-2">
-                                Net amount deposited in your bank account
+                                Net amount to be deposited in {depositCurrency}
                             </div>
                             <Collapsible
                                 open={isResultExpanded}
