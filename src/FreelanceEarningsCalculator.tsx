@@ -75,6 +75,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
     const [depositCurrency, setDepositCurrency] = useState('INR');
     const [calculationResult, setCalculationResult] = useState<{
         netEarnings: number;
+        netEarningsSource: number;
         serviceFee: number;
         gstOnServiceFee: number;
         withholdingTax: number;
@@ -121,6 +122,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
 
         setCalculationResult({
             netEarnings: netEarningsAfterExchange,
+            netEarningsSource: netEarningsBeforeExchange,
             serviceFee,
             gstOnServiceFee,
             withholdingTax,
@@ -269,6 +271,7 @@ const FreelanceEarningsCalculator: React.FC = () => {
                                         <p>Withholding Tax: {earningCurrency} {calculationResult.withholdingTax.toFixed(2)}</p>
                                         <p>Withdrawal Fee: {earningCurrency} {calculationResult.withdrawalFeeCharge.toFixed(2)}</p>
                                         <p className="font-semibold">Total Deductions: {earningCurrency} {calculationResult.totalDeductions.toFixed(2)}</p>
+                                        <p>Net Earnings: {earningCurrency} {calculationResult.netEarningsSource.toFixed(2)}</p>
                                     </div>
                                 </CollapsibleContent>
                             </Collapsible>
