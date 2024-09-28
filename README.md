@@ -2,6 +2,11 @@
 
 A React-based web application to help freelancers calculate their net earnings after fees and currency conversion.
 
+<img width="800" alt="Freelance Earnings Calculator" src="https://github.com/user-attachments/assets/221a2167-4eff-4bb3-b1f5-ddfee7b0d2d4">
+
+<img width="829" alt="image" src="https://github.com/user-attachments/assets/df9714da-0b30-4419-9209-3ffdcbbbfcd1">
+
+
 ## Features
 
 - Calculate net earnings from gross income
